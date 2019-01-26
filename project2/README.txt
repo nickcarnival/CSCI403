@@ -5,4 +5,6 @@
 	SELECT FROM WHERE LIKE just doesnt roll off the tongue
 3) Like/Dislike
 	I liked the amount of queries that we had to do 
-4) 
+4) How long did you spend on this assignment?
+	45 minutes.
+
