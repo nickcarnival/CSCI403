@@ -39,8 +39,15 @@
 	SELECT first, colors FROM hogwarts_students JOIN hogwarts_houses ON hogwarts_students.house = hogwarts_houses.house 
 	WHERE last LIKE 'Black';
 13) Who founded the house that Parvati Patil sorted into? 
+	Godric Gryffindor
+	SELECT founder FROM hogwarts_houses JOIN hogwarts_students 
+	ON hogwarts_students.house = hogwarts_houses.house
+	WHERE first LIKE 'Par%';
+14) What are the names and houses of the defense against the dark arts teachers for whom we have student records?
+	SELECT hogwarts_students.first, hogwarts_students.last, house
+	FROM hogwarts_dada JOIN hogwarts_students 
+	ON hogwarts_dada.last = hogwarts_students.last;
 	
-
 
 
 
