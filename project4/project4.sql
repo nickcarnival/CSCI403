@@ -1,6 +1,7 @@
 --Author: Nicholas Carnival
---Due: Feb 11 2019
+--Date: Feb 11 2019 
 
+<<<<<<< HEAD
 --1. How many Slytherin students are there?
     --counts the students by existence in hogwarts_students
 SELECT COUNT(*) 
