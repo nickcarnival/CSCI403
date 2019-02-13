@@ -1,12 +1,6 @@
 --Author: Nicholas Carnival
 --Date: Feb 11 2019 
 
-<<<<<<< HEAD
-SELECT COUNT(first)
-FROM hogwarts_students;
-
-=======
-<<<<<<< HEAD
 --1. How many Slytherin students are there?
     --counts the students by existence in hogwarts_students
 SELECT COUNT(*) 
@@ -128,5 +122,4 @@ house LIKE 'G%'
 AND
 first != (SELECT first FROM hogwarts_students WHERE FIRST LIKE 'R%' AND last LIKE 'H%')
 ;
->>>>>>> veggie
 
