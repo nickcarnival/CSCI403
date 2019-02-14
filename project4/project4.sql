@@ -38,7 +38,7 @@ GROUP BY house
 UNION
 SELECT house, COUNT(first) FROM hogwarts_students WHERE house LIKE 'H%'
 GROUP BY house
-ORDER BY count
+ORDER BY count DESC
 ;
 --6. Which houses have more than 20 associated student records, and how many students are in those houses?
 	--this requires a join from hogwarts_students and hogwarts_houses
@@ -111,15 +111,11 @@ GROUP BY hs.house
 --Extra credit
 --15. What student started in the same year as, and has the same length first and last names as a student with initials "R. H." who was in a house with a Lion as its heraldic animal? Don't return the student R. H., just the other one.
     --all of my queries could be done better with joins...
-SELECT first, last FROM hogwarts_students 
-WHERE LENGTH(first) = (
-SELECT LENGTH(first) FROM hogwarts_students WHERE first LIKE 'R%' AND last LIKE 'H%')
-AND 
-LENGTH(last) = (
-SELECT LENGTH(last) FROM hogwarts_students WHERE FIRST LIKE 'R%' AND last LIKE 'H%')
-AND
-house LIKE 'G%'
-AND
-first != (SELECT first FROM hogwarts_students WHERE FIRST LIKE 'R%' AND last LIKE 'H%')
+SELECT a.first, a.last
+FROM hogwarts_students AS a, hogwarts_students AS b
+WHERE a.start = b.start
+    AND CHAR_LENGTH(a.first) = CHAR_LENGTH(b.first)
+    AND CHAR_LENGTH(a.last) = CHAR_LENGTH(b.last)
+    AND b.first LIKE 'R%' AND b.last LIKE 'H%' AND b.house LIKE 'G%'
+    AND a.first NOT LIKE 'R%' AND a.last NOT LIKE 'H%'
 ;
-
