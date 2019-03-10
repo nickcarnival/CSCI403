@@ -28,7 +28,7 @@
           <dia:boolean val="false"/>
         </dia:attribute>
         <dia:attribute name="scaling">
-          <dia:real val="0.69075661897659302"/>
+          <dia:real val="0.69075667858123779"/>
         </dia:attribute>
         <dia:attribute name="fitto">
           <dia:boolean val="true"/>
@@ -974,14 +974,14 @@
     </dia:object>
     <dia:object type="ER - Participation" version="1" id="O27">
       <dia:attribute name="obj_pos">
-        <dia:point val="28.0279,-4.9871"/>
+        <dia:point val="27.6429,-5.1026"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="27.8529,-5.815;31.0752,-4.8121"/>
+        <dia:rectangle val="27.4679,-5.815;31.0752,-4.9276"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="28.0279,-4.9871"/>
-        <dia:point val="29.7,-4.9871"/>
+        <dia:point val="27.6429,-5.1026"/>
+        <dia:point val="29.7,-5.1026"/>
         <dia:point val="29.7,-5.64"/>
         <dia:point val="30.9002,-5.64"/>
       </dia:attribute>
@@ -1006,16 +1006,16 @@
         <dia:point val="21.7929,-6.8576"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="21.7429,-8.0076;28.0779,-1.9666"/>
+        <dia:rectangle val="21.7429,-8.0076;27.6929,-2.1976"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
         <dia:point val="21.7929,-6.8576"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="6.2350000000000003"/>
+        <dia:real val="5.8499999999999996"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
-        <dia:real val="3.7410000000000001"/>
+        <dia:real val="3.5099999999999998"/>
       </dia:attribute>
       <dia:attribute name="border_width">
         <dia:real val="0.10000000000000001"/>
@@ -1027,7 +1027,7 @@
         <dia:color val="#ffffff"/>
       </dia:attribute>
       <dia:attribute name="name">
-        <dia:string>#REVIEWED BY#</dia:string>
+        <dia:string>#REVIEWD BY#</dia:string>
       </dia:attribute>
       <dia:attribute name="left_card">
         <dia:string>#1#</dia:string>
@@ -1223,14 +1223,14 @@
     </dia:object>
     <dia:object type="Standard - Line" version="0" id="O34">
       <dia:attribute name="obj_pos">
-        <dia:point val="21.7432,-5.30329"/>
+        <dia:point val="21.743,-5.37381"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="15.2693,-5.99885;21.7979,-5.24857"/>
+        <dia:rectangle val="15.2707,-6.01322;21.7973,-5.31947"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
-        <dia:point val="21.7432,-5.30329"/>
-        <dia:point val="15.324,-5.94414"/>
+        <dia:point val="21.743,-5.37381"/>
+        <dia:point val="15.325,-5.95888"/>
       </dia:attribute>
       <dia:attribute name="numcp">
         <dia:int val="1"/>
