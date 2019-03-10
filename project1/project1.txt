@@ -1,0 +1,10 @@
+Nicholas Carnival
+01/09/19
+CSCI 403
+
+line         stanza                                              
+-----------------------------------------------------------------
+0            A tough paper plays.                                
+1            Stars catch mud but candles turn.                   
+2            Smooth, blue shadows wake.                          
+<null>       --from http://peterhoward.org/haikugen/framset1.ht  
