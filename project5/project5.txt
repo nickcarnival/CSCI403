@@ -1,0 +1,1 @@
+I chose to give the movie an identifying key, or ISAN because there are different movies that have the same title and this would cause major issue in the database. The ISAN is a number that identifies each movie similar to an ISBN for books.
