@@ -62,8 +62,8 @@ CREATE TABLE membership (
  * Insertion into tables
 */--------------------------------------------------------------------------------------
 
---insert the genres into genre table
-INSERT  INTO genre (genreType)
-    SELECT DISTINCT genre
-    FROM project6
+--populate the artist table first
+INSERT INTO artist (name)
+SELECT DISTINCT artist_name 
+FROM project6
 ;
