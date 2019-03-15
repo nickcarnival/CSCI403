@@ -1,10 +1,10 @@
 --Author: Nicholas Carnival
 --Date: March 18 2019 
 
-/*
- *Table Creation:
-*/
--- Drops the artist table and all dependencies
+
+/*--------------------------------------------------------------------------------------
+ * Create the tables 
+*/--------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS Artist CASCADE;
 CREATE TABLE Artist (
     ID serial,
@@ -12,7 +12,7 @@ CREATE TABLE Artist (
     Name text,   
     PRIMARY KEY (ID)
 );
---
+--Label table
 DROP TABLE IF EXISTS Label CASCADE;
 CREATE TABLE Label (
     ID serial , 
@@ -27,6 +27,7 @@ CREATE TABLE Album (
     LabelID int,
     ID serial,
     Title text,
+    Genre text,
     Year date,
     FOREIGN KEY (ArtistID) REFERENCES Artist(ID), 
     FOREIGN KEY (LabelID) REFERENCES Label(ID), 
@@ -57,3 +58,12 @@ CREATE TABLE membership (
     PRIMARY KEY(membershipID)
 ); 
 
+/*--------------------------------------------------------------------------------------
+ * Insertion into tables
+*/--------------------------------------------------------------------------------------
+
+--insert the genres into genre table
+INSERT  INTO genre (genreType)
+    SELECT DISTINCT genre
+    FROM project6
+;
