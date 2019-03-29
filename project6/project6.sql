@@ -1,5 +1,6 @@
 --Author: Nicholas Carnival
 --Date: March 18 2019 
+--Project 6
 
 
 /*--------------------------------------------------------------------------------------
@@ -62,8 +63,20 @@ CREATE TABLE membership (
  * Insertion into tables
 */--------------------------------------------------------------------------------------
 
---populate the artist table first
+--The most difficult table to work with is the artist table.
+--This needs to be populated with data both from the artist_name column of project6 as well as the member_name column of project6.
+--When you are done, your artist table should contain:
+
+--    Solo artists
+--    Groups
+--    Group members
+
+--What am I actually trying to do?
+--Find all solo artists, groups, and group members.
+
+--project6.artist_name is the band or artist name
 INSERT INTO artist (name)
-SELECT DISTINCT artist_name 
-FROM project6
+    (SELECT DISTINCT artist_name FROM project6
+    UNION
+    SELECT member_name FROM project6)
 ;
