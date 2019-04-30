@@ -50,6 +50,7 @@ CREATE TABLE Track (
         PRIMARY KEY(AlbumID, ArtistID, name)
 );
 -- Artist is either in a group or an individual
+--create another table that cross references artist with iteself
 DROP TABLE IF EXISTS membership CASCADE;
 CREATE TABLE membership (
     membershipID serial,
@@ -78,5 +79,12 @@ CREATE TABLE membership (
 INSERT INTO artist (name)
     (SELECT DISTINCT artist_name FROM project6
     UNION
-    SELECT member_name FROM project6)
+    SELECT DISTINCT member_name FROM project6) 
 ;
+--INSERT INTO artist(Type)
+--    SELECT artist_type FROM project6 as p6, artist as ar  where p6.artist_name = ar.name;
+--;
+
+
+
+
