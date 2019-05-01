@@ -4,7 +4,8 @@
 --1. How many Slytherin students are there?
     --counts the students by existence in hogwarts_students
 SELECT COUNT(*) 
-FROM hogwarts_students; 
+FROM hogwarts_students
+WHERE house = 'Slytherin'; 
 --2. What is the earliest start year of any student in our data?
     --finds the minimum, other than zero, value for start
 SELECT MIN(start)
@@ -93,7 +94,7 @@ WHERE length(first) IN (
 SELECT first, last FROM hogwarts_students
 WHERE finish >= (
 	SELECT finish FROM hogwarts_dada WHERE first LIKE 'D%')
-AND start <= (
+    AND start <= (
 	SELECT start FROM hogwarts_dada WHERE first LIKE 'D%')
 ;
 --13. Which students have had other family members attend Hogwarts (assume anyone with the same last name is a family member)? Order by last name and first name.
