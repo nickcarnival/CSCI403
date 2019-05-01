@@ -1,90 +1,169 @@
---Author: Nicholas Carnival
---Date: March 18 2019 
---Project 6
+-- Nicholas Carnival 
+-- Date: March 18 2019
+-- Project 6 
 
-
-/*--------------------------------------------------------------------------------------
+/*--------------------------------------------------------------------------------
  * Create the tables 
-*/--------------------------------------------------------------------------------------
+*/--------------------------------------------------------------------------------
+
 DROP TABLE IF EXISTS Artist CASCADE;
-CREATE TABLE Artist (
-    ID serial,
-    Type text,
-    Name text,   
-    PRIMARY KEY (ID)
+CREATE Table Artist (
+	ID serial,
+	Name text,
+	Type text,
+	PRIMARY KEY(ID)
 );
---Label table
+
+
 DROP TABLE IF EXISTS Label CASCADE;
-CREATE TABLE Label (
-    ID serial , 
-    Location text,
-    Name text,
-    PRIMARY KEY (ID)
-);
---Has two ID's that reference both Artist and Label
+CREATE Table Label (
+	ID SERIAL,
+	Location TEXT,
+	Name TEXT,
+	PRIMARY KEY (ID)
+);	
+
 DROP TABLE IF EXISTS Album CASCADE;
-CREATE TABLE Album (
-    ArtistID int, 
-    LabelID int,
-    ID serial,
-    Title text,
-    Genre text,
-    Year date,
-    FOREIGN KEY (ArtistID) REFERENCES Artist(ID), 
-    FOREIGN KEY (LabelID) REFERENCES Label(ID), 
-    PRIMARY KEY (ID)
+CREATE Table Album (
+	ID SERIAL,
+	Label_ID SERIAL NOT NULL,
+	artistID SERIAL NOT NULL,
+	Title TEXT,
+	Year numeric(4,0),
+	PRIMARY KEY (ID),
+	FOREIGN KEY (artistID) REFERENCES Artist(ID),
+	FOREIGN KEY (Label_ID) REFERENCES Label(ID)
 );
-DROP TABLE IF EXISTS Genre;
-CREATE TABLE Genre (
-    AlbumID int,
-    genreType text,
-    FOREIGN KEY (AlbumID) REFERENCES Album(ID)
+
+DROP TABLE IF EXISTS genre CASCADE;
+CREATE Table genre (
+	albumID SERIAL NOT NULL,
+	ID SERIAL NOT NULL,
+	Genre TEXT,
+	PRIMARY KEY(ID, Genre),
+	FOREIGN KEY (albumID) REFERENCES Album(ID)
 );
---TrackInfo is a partial key
+
 DROP TABLE IF EXISTS Track CASCADE;
-CREATE TABLE Track (
-        AlbumID int REFERENCES Album(ID), 
-        ArtistID int REFERENCES Artist(ID),
-        Name text,
-        Number integer,
-        PRIMARY KEY(AlbumID, ArtistID, name)
+CREATE Table Track (
+	albumID SERIAL NOT NULL,
+	Name TEXT NOT NULL,
+	Number TEXT NOT NULL,
+	PRIMARY KEY(Name, Number, albumID),
+	FOREIGN KEY (albumID) REFERENCES Album(ID)
 );
--- Artist is either in a group or an individual
---create another table that cross references artist with iteself
+
+-- The cross table for individuals and groups
 DROP TABLE IF EXISTS membership CASCADE;
-CREATE TABLE membership (
-    membershipID serial,
-    groupID text,
-    startYear int,
-    endYear int,
-    PRIMARY KEY(membershipID)
-); 
+CREATE Table membership(
+	artistID SERIAL NOT NULL,
+	memberID SERIAL NOT NULL,
+	FOREIGN KEY (artistID) REFERENCES Artist(ID),
+	FOREIGN KEY (memberID) REFERENCES Artist(ID),
+	beginYear numeric(4,0),
+	endYear numeric(4,0),
+	PRIMARY KEY(artistID, memberID)
+);
 
-/*--------------------------------------------------------------------------------------
+/*------------------------------------------------------------------------------
  * Insertion into tables
-*/--------------------------------------------------------------------------------------
+*/------------------------------------------------------------------------------
 
---The most difficult table to work with is the artist table.
---This needs to be populated with data both from the artist_name column of project6 as well as the member_name column of project6.
---When you are done, your artist table should contain:
+--Artist table insertions
+INSERT INTO Artist (name, type)
+SELECT DISTINCT artist_name, artist_type FROM public.project6;
+INSERT INTO Artist (name, type)
+SELECT DISTINCT member_name, 'Person' FROM public.project6;
 
---    Solo artists
---    Groups
---    Group members
+--membership table insertions
+INSERT INTO membership(artistID, memberID, beginYear, endYear)     
+SELECT DISTINCT a1.id, a2.id, p.member_begin_year, p.member_end_year  
+FROM artist AS a1, artist AS a2, public.project6 AS p                           
+WHERE a1.name = p.artist_name AND a2.name = p.member_name;
 
---What am I actually trying to do?
---Find all solo artists, groups, and group members.
+--label table insertions
+INSERT INTO Label (name, location)
+SELECT DISTINCT label, headquarters FROM public.project6;
 
---project6.artist_name is the band or artist name
-INSERT INTO artist (name)
-    (SELECT DISTINCT artist_name FROM project6
+--album table insertions
+INSERT INTO Album (title, year, artistID, label_id)
+SELECT DISTINCT p.album_title, p.album_year, artist.id, label.id
+FROM public.project6 AS p, artist, label
+WHERE p.artist_name = artist.name AND p.label = label.name;
+
+--genre table insertions
+INSERT INTO genre (albumID, genre)
+SELECT DISTINCT album.id, p.genre FROM public.project6 AS p, album
+WHERE p.album_title = album.title;
+
+/* Populate Track */
+INSERT INTO Track (albumID, name, number)
+SELECT DISTINCT album.id, p.track_name, p.track_number
+FROM album, public.project6 AS p
+WHERE p.album_title = album.title;
+
+
+-- Question 1:
+SELECT artist1.name, beginYear, endYear 
+FROM artist as artist1, artist as artist2, membership 
+WHERE artist1.id = memberID AND artist2.id = artistID 
+AND artist2.name = 'The Who';
+
+-- Question 2:
+SELECT DISTINCT artist1.name 
+FROM artist as artist1, artist as artist2, membership 
+WHERE artist1.id = artistID AND artist2.id = memberID 
+AND artist2.name = 'Chris Thile';
+
+-- Question 3:
+SELECT title, year, label.name 
+FROM artist, album, label 
+WHERE artist.name = 'Talking Heads' AND album.artistID = artist.id 
+AND album.label_id = label.id 
+ORDER BY year;
+
+-- Question 4:
+SELECT title, year, artist, label FROM (
+    SELECT DISTINCT album.title AS title, album.year AS year, artist1.name 
+    AS artist, label.name AS label 
+        FROM artist AS artist1, artist AS artist2, membership, label, album 
+        WHERE artist1.id = membership.artistID
+        AND artist2.id = membership.memberID
+        AND artist2.name = 'Chris Thile' 
+        AND album.artistID= artist1.id AND album.label_id = label.id
     UNION
-    SELECT DISTINCT member_name FROM project6) 
-;
---INSERT INTO artist(Type)
---    SELECT artist_type FROM project6 as p6, artist as ar  where p6.artist_name = ar.name;
---;
+    SELECT album.title AS album, album.year AS year, artist.name 
+    AS artist, label.name AS label 
+        FROM album, artist, label 
+        WHERE album.artistID = artist.id AND album.label_id = label.id 
+        AND artist.name = 'Chris Thile'
+    )
+RESULTS
+ORDER BY year;
 
+-- Question 5:
+SELECT artist.name, album.title, album.year 
+FROM artist, album, genre 
+WHERE genre.genre = 'electronica' AND album.artistID = artist.id 
+AND genre.albumID = album.id 
+ORDER BY year;
 
+-- Question 6:
+SELECT track.name, track.number 
+FROM artist, album, track 
+WHERE artist.name = 'Led Zeppelin' AND album.artistID = artist.id 
+AND album.title = 'Houses of the Holy' AND track.albumID = album.id 
+ORDER BY track.number;
 
+-- Question 7:
+SELECT DISTINCT genre.genre 
+FROM genre, album, artist 
+WHERE genre.albumID = album.id AND album.artistID = artist.id 
+AND artist.name = 'James Taylor';
+
+-- Question 8:
+SELECT artist.name, album.title, album.year, label.name 
+FROM artist, album, label 
+WHERE album.label_id = label.id AND album.artistID = artist.id 
+AND label.location = 'Hollywood';
 
